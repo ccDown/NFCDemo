@@ -100,7 +100,7 @@ public class NfcDemoActivity extends AppCompatActivity {
         try {
             // 获取TAG中包含的扇区数
             int sectorCount = mTag.getSectorCount();
-            for (int j = 6; j < 8; j++) {
+            for (int j = 5; j < 7; j++) {
                 int bCount;//当前扇区的块数
                 int bIndex;//当前扇区第一块
 
