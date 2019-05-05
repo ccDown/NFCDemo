@@ -11,15 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NfcActivity" android:launchMode="singleInstance">
+        <activity android:name=".NfcActivity" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.nfc.action.TECH_DISCOVERED"/>
             </intent-filter>
 
             <meta-data android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/tag_type" />
+
         </activity>
     </application>
 

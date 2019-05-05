@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.nfc.tech.IsoDep;
 import android.nfc.tech.MifareClassic;
 import android.util.Log;
 import android.widget.Toast;
@@ -39,33 +40,64 @@ public class M1CardUtils {
         if (!mNfcAdapter.isEnabled()) {
             Toast.makeText(mContext, "请在系统设置中先启用NFC功能！", Toast.LENGTH_LONG).show();
         }
+
         return mNfcAdapter;
     }
 
     /**
-     * 监测是否支持MifareClassic
+     * 监测是否支持cardType类型卡
      * @param tag
      * @param activity
+     * @param cardType
      * @return
      */
-    public static boolean isMifareClassic(Tag tag,Activity activity){
+    public static boolean hasCardType(Tag tag,Activity activity,String cardType){
+
+        if (tag == null){
+            Toast.makeText(activity,"请贴卡",Toast.LENGTH_LONG).show();
+            return false;
+        }
+
         String[] techList = tag.getTechList();
-        boolean haveMifareUltralight = false;
+
+        boolean hasCardType = false;
         for (String tech : techList) {
-            if (tech.contains("MifareClassic")) {
-                haveMifareUltralight = true;
+            Log.e("TagTech",tech);
+            if (tech.contains(cardType)) {
+                hasCardType = true;
                 break;
             }
         }
-        if (!haveMifareUltralight) {
-            Toast.makeText(activity, "不支持MifareClassic", Toast.LENGTH_LONG).show();
-            return false;
+
+        if (!hasCardType) {
+            Toast.makeText(activity, "不支持"+cardType+"卡", Toast.LENGTH_LONG).show();
         }
-        return true;
+
+        return hasCardType;
     }
 
     /**
-     * 读取卡片信息
+     * CPU卡信息读取
+     * @param tag
+     * @return
+     * @throws IOException
+     */
+    public static String readIsoCard(Tag tag) throws IOException {
+        IsoDep isoDep = IsoDep.get(tag);
+        if (!isoDep.isConnected()){
+            isoDep.connect();
+        }
+
+        String result = StringUtil.bytesToHexString(isoDep.transceive(StringUtil.hex2Bytes("00A40400023F00")));
+        Log.e("readIsoCard",result);
+        result = StringUtil.bytesToHexString(isoDep.transceive(StringUtil.hex2Bytes("00B0950030")));
+        Log.e("readIsoCard",result);
+        isoDep.close();
+        return result;
+    }
+
+    /**
+     * M1读取卡片信息
      * @return
      */
     public static String[][] readCard(Tag tag)  throws IOException{

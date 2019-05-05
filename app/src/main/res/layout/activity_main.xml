@@ -5,9 +5,22 @@
     android:orientation="vertical"
     >
 
-    <CheckBox
-        android:id="@+id/checkbox_write"
+    <Button
+        android:text="读取M1数据"
+        android:id="@+id/btn_read_m1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="是否向NFC标签写入数据"/>
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="读取CPU卡数据"
+        android:id="@+id/btn_read_cpu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:scrollbars="vertical"
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </LinearLayout>

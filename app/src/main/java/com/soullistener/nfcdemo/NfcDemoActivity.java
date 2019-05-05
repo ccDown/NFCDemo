@@ -73,11 +73,11 @@ public class NfcDemoActivity extends AppCompatActivity {
             return;
         }
 
-        try {
-            writeBlock(tag, 4*6+2, "9999999999      ".getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            writeBlock(tag, 4*6+2, "9999999999      ".getBytes());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         ArrayList data = new ArrayList();
         try {
@@ -117,7 +117,7 @@ public class NfcDemoActivity extends AppCompatActivity {
                     bIndex = mTag.sectorToBlock(j);
                     for (int i = 0; i < bCount; i++) {
                         byte[] data = mTag.readBlock(bIndex);
-                        Log.e("数据",convertHexToString(bytesToHexString(data)));
+                        Log.e("第"+i+"数据:",convertHexToString(bytesToHexString(data)));
                         metaInfo.add(bytesToHexString(data));
                         bIndex++;
                     }
